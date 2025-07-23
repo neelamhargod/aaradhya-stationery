@@ -49,7 +49,7 @@ export default function OrderSummary() {
 
         let totalAmount = 0;
         let totalProducts = orderItems.length;
-
+console.log("orderItems", orderItems)
         const tableData = orderItems.map((product, index) => {
             let quantityNumber = parseFloat(product.quantity) || 0;
 
@@ -135,21 +135,21 @@ export default function OrderSummary() {
         // Open WhatsApp with the message
         setTimeout(()=>{
             window.open(`https://wa.me/+919826028038?text=${whatsappMessage}`, "_blank");
-        },30000)
+        },5000)
     };
 
     const placeOrder = async () => {
         const storedUser = localStorage.getItem('userInfo');
         const userData = JSON.parse(storedUser);
 
-        const fullDateTime = new Date(`${deliveryDateTime.date}T${String(deliveryDateTime.hour).padStart(2, '0')}:00:00`);
+        // const fullDateTime = new Date(`${deliveryDateTime.date}T${String(deliveryDateTime.hour).padStart(2, '0')}:00:00`);
 
         const payload = {
             name: userData.name,
             mobileNumber: userData.mobile,
             order: orderItems,
             createdAt: new Date(),
-            deliveryDateTime: fullDateTime.toISOString()
+            // deliveryDateTime: fullDateTime.toISOString()
         };
         
         const res = await fetch('/api/orders', {
@@ -163,6 +163,7 @@ export default function OrderSummary() {
             toast.success("Order placed successfully!", { position: "top-center", autoClose: 3000 });
             setOrderItems([])
             goBack()
+            localStorage.setItem('orderInfo', JSON.stringify([]));
         } else {
             toast.error("Failed to place order.", { position: "top-center", autoClose: 3000 });
         }
