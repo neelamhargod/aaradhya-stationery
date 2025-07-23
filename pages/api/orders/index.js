@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       req.method === 'POST' &&
       req.headers['content-type']?.includes('multipart/form-data')
     ) {
-      const uploadDir = path.join(process.cwd(), 'public', 'cake-img');
+      const uploadDir = path.join(process.cwd(), 'public', 'stationery-img');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
@@ -72,7 +72,7 @@ export default async function handler(req, res) {
         }
 
         const fileName = path.basename(file.filepath);
-        const filePath = `/cake-img/${fileName}`;
+        const filePath = `/stationery-img/${fileName}`;
         return res.status(200).json({ filePath });
       });
 

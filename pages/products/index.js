@@ -103,14 +103,25 @@ export default function ProductList() {
     }, [selectedProduct]);
 
     useEffect(() => {
-        if(selectedProducts?.length> 0){
-            localStorage.setItem('orderInfo', JSON.stringify(selectedProducts));
-        }else{
-            const orderData = localStorage.getItem('orderInfo');        
-            setSelectedProducts(JSON.parse(orderData))
+    // Load from localStorage once on mount
+    const orderData = localStorage.getItem('orderInfo');
+    if (orderData) {
+        try {
+            const parsedData = JSON.parse(orderData);
+            if (Array.isArray(parsedData) && parsedData.length > 0) {
+                setSelectedProducts(parsedData);
+            }
+        } catch (error) {
+            console.error("Failed to parse orderInfo from localStorage:", error);
         }
-    }, [selectedProducts]);
+    }
+}, []); // <- empty dependency array, runs only once on mount
 
+useEffect(() => {
+    if (selectedProducts?.length > 0) {
+        localStorage.setItem('orderInfo', JSON.stringify(selectedProducts));
+    }
+}, [selectedProducts]);
 
     const handleAddToCart = (productId, quantity) => {
         let selectPro = products.find(p => p.id === productId);
@@ -120,7 +131,7 @@ export default function ProductList() {
         let totalPrice = numericQuantity * selectPro.price;
 
         setSelectedProducts(prev => {
-            let updatedProducts = prev.map(p =>
+            let updatedProducts = prev?.map(p =>
                 p.title === selectPro.productTitle
                     ? { ...p, quantity, proTotalPrice: totalPrice }
                     : p
@@ -128,8 +139,8 @@ export default function ProductList() {
 
             if (!quantity) {
                 updatedProducts = updatedProducts.filter(p => p.title !== selectPro.productTitle);
-            } else if (!prev.some(p => p.title === selectPro.productTitle)) {
-                updatedProducts.push({
+            } else if (!prev?.some(p => p.title === selectPro.productTitle)) {
+                updatedProducts?.push({
                     id: selectPro.id,
                     title: selectPro.productTitle,
                     productImage: selectPro.productImage,
@@ -211,7 +222,7 @@ export default function ProductList() {
                         onChange={(e) => setSearch(e.target.value)}
                         className={styles.searchBox}
                     />
-                    {/* <select
+                    <select
                         value={priceRange}
                         onChange={(e) => setPriceRange(e.target.value)}
                         className={styles.priceFilterDropdown}
@@ -220,7 +231,7 @@ export default function ProductList() {
                         <option value="below500">Below ₹500</option>
                         <option value="500to1000">₹500 - ₹1000</option>
                         <option value="above1000">Above ₹1000</option>
-                    </select> */}
+                    </select>
                 </div>
             </div>
 
@@ -383,7 +394,7 @@ export default function ProductList() {
                             <p><strong>Description:</strong> {selectedProduct.description}</p>
                             {/* <button type="button" className={styles.addToCardDetails}>Add To Card</button> */}
 
-                            {selectedProducts.some(p => p.id === selectedProduct.id) ? (
+                            {selectedProducts?.some(p => p.id === selectedProduct.id) ? (
                                 <div className={styles.qtyButtonsDetails}>
                                     <button
                                         onClick={(e) => {

@@ -38,80 +38,80 @@ export default function OrderSummary() {
         const shopName = "Aaradhya Stationery";
         const shopContact = "+919826028038";
 
-        // doc.setFontSize(16);
-        // doc.text("Order Summary", 80, 10);
+        doc.setFontSize(16);
+        doc.text("Order Summary", 80, 10);
 
-        // doc.setFontSize(12);
-        // doc.text(`Customer: ${userName}`, 14, 20);
-        // doc.text(`Contact: ${userContact}`, 14, 30);
-        // doc.text(`Shop: ${shopName}`, 120, 20);
-        // doc.text(`Shop Contact: ${shopContact}`, 120, 30);
+        doc.setFontSize(12);
+        doc.text(`Customer: ${userName}`, 14, 20);
+        doc.text(`Contact: ${userContact}`, 14, 30);
+        doc.text(`Shop: ${shopName}`, 120, 20);
+        doc.text(`Shop Contact: ${shopContact}`, 120, 30);
 
-        // let totalAmount = 0;
-        // let totalProducts = orderItems.length;
+        let totalAmount = 0;
+        let totalProducts = orderItems.length;
 
-        // const tableData = orderItems.map((product, index) => {
-        //     let quantityNumber = parseFloat(product.quantity) || 0;
+        const tableData = orderItems.map((product, index) => {
+            let quantityNumber = parseFloat(product.quantity) || 0;
 
-        //     const totalPrice = quantityNumber * (product.price || 0);
-        //     totalAmount += totalPrice;
-        //     return [index + 1, product.title, product.quantity, `Rs ${product.price}`, `Rs ${totalPrice.toFixed(2)}`];
-        // });
+            const totalPrice = quantityNumber * (product.price || 0);
+            totalAmount += totalPrice;
+            return [index + 1, product.title, product.quantity, `Rs ${product.price}`, `Rs ${totalPrice.toFixed(2)}`];
+        });
 
-        // doc.autoTable({
-        //     head: [['#', 'Product', 'Quantity', 'Unit Price', 'Total Price']],
-        //     body: [
-        //         ...tableData,
-        //         [
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: 'Total Products',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
-        //             },
-        //             {
-        //                 content: totalProducts,
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
-        //             }
-        //         ],
-        //         [
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: ' ',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
-        //             },
-        //             {
-        //                 content: 'Total Amount',
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
-        //             },
-        //             {
-        //                 content: 'Rs ' + totalAmount.toFixed(2),
-        //                 styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
-        //             }
-        //         ]
-        //     ],
-        //     startY: 40,
-        // });
+        doc.autoTable({
+            head: [['#', 'Product', 'Quantity', 'Unit Price', 'Total Price']],
+            body: [
+                ...tableData,
+                [
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: 'Total Products',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
+                    },
+                    {
+                        content: totalProducts,
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
+                    }
+                ],
+                [
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: ' ',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff' }
+                    },
+                    {
+                        content: 'Total Amount',
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
+                    },
+                    {
+                        content: 'Rs ' + totalAmount.toFixed(2),
+                        styles: { fontStyle: 'bold', halign: 'left', fillColor: '#fff', textColor: '#1d2a35' }
+                    }
+                ]
+            ],
+            startY: 40,
+        });
 
-        // const fileName = `${new Date().toLocaleDateString().replace(/\//g, '-')}-Order-Summary.pdf`;
-        // doc.save(fileName);
+        const fileName = `${new Date().toLocaleDateString().replace(/\//g, '-')}-Order-Summary.pdf`;
+        doc.save(fileName);
 
         //WhatsApp message with order details
         const productList = orderItems
@@ -133,7 +133,9 @@ export default function OrderSummary() {
         );
 
         // Open WhatsApp with the message
-        window.open(`https://wa.me/+919826028038?text=${whatsappMessage}`, "_blank");
+        setTimeout(()=>{
+            window.open(`https://wa.me/+919826028038?text=${whatsappMessage}`, "_blank");
+        },30000)
     };
 
     const placeOrder = async () => {
