@@ -116,9 +116,9 @@ console.log("orderItems", orderItems)
         //WhatsApp message with order details
         const productList = orderItems
             .map((p, i) =>
-                `${i + 1}. ${p.title} x ${p.quantity}\n`
+                `${i + 1}. ${p.title} - ${p.quantity}\n`
             )
-            .join('\n\n');
+            .join('');
 
         const whatsappMessage = encodeURIComponent(
             `*Order Summary*` +
