@@ -133,9 +133,9 @@ console.log("orderItems", orderItems)
         );
 
         // Open WhatsApp with the message
-        setTimeout(()=>{
-            window.open(`https://wa.me/+919826028038?text=${whatsappMessage}`, "_blank");
-        },5000)
+        window.open(`https://wa.me/+919826028038?text=${whatsappMessage}`, "_blank");
+        // setTimeout(()=>{
+        // },5000)
     };
 
     const placeOrder = async () => {
